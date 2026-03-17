@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>招标头条 - 招标信息平台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #1890ff;
+            --color-primary-hover: #096dd9;
+            --color-primary-active: #0050b3;
+            --color-primary-light: #e6f7ff;
+            --color-success: #52c41a;
+            --color-warning: #faad14;
+            --color-error: #ff4d4f;
+            --color-info: #13c2c2;
+            --color-text: #262626;
+            --color-text-secondary: #595959;
+            --color-text-tertiary: #8c8c8c;
+            --color-text-quaternary: #bfbfbf;
+            --color-border: #d9d9d9;
+            --color-border-light: #f0f0f0;
+            --color-bg: #ffffff;
+            --color-bg-page: #f5f5f5;
+            --color-bg-container: #ffffff;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 12px;
+            --spacing-base: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-xxl: 48px;
+            --radius-sm: 2px;
+            --radius-base: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+            --shadow-base: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.10);
+            --shadow-popup: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--color-text);
+            background: var(--color-bg-page);
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        .header {
+            background: var(--color-bg);
+            border-bottom: 1px solid var(--color-border-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, #69c0ff 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .header-search {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 var(--spacing-xl);
+            display: flex;
+        }
+
+        .header-search select {
+            width: 120px;
+            padding: 0 var(--spacing-md);
+            border: 1px solid var(--color-border);
+            border-right: none;
+            border-radius: var(--radius-base) 0 0 var(--radius-base);
+            background: var(--color-bg);
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23595959' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        .header-search input {
+            flex: 1;
+            padding: 0 var(--spacing-base);
+            border: 1px solid var(--color-border);
+            border-left: none;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .header-search input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+
+        .header-search button {
+            padding: 0 var(--spacing-lg);
+            background: var(--color-primary);
+            border: none;
+            border-radius: 0 var(--radius-base) var(--radius-base) 0;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .header-search button:hover { background: var(--color-primary-hover); }
+
+        .header-actions { display: flex; align-items: center; gap: var(--spacing-base); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            height: 36px;
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            gap: var(--spacing-sm);
+        }
+
+        .btn-primary { background: var(--color-primary); color: #fff; }
+        .btn-primary:hover { background: var(--color-primary-hover); }
+        .btn-default { background: var(--color-bg); border-color: var(--color-border); color: var(--color-text); }
+        .btn-default:hover { border-color: var(--color-primary); color: var(--color-primary); }
+        .btn-text { background: transparent; color: var(--color-text-secondary); padding: 0 var(--spacing-md); }
+        .btn-text:hover { color: var(--color-primary); }
+
+        .nav {
+            background: var(--color-bg);
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+            display: flex;
+            height: 48px;
+        }
+
+        .nav-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-lg);
+            color: var(--color-text-secondary);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover { color: var(--color-primary); }
+        .nav-item.active { color: var(--color-primary); }
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-primary);
+        }
+
+        .main { max-width: 1400px; margin: 0 auto; padding: var(--spacing-lg); }
+
+        .filter-bar {
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+            box-shadow: var(--shadow-base);
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-base);
+            margin-bottom: var(--spacing-base);
+        }
+
+        .filter-group:last-child { margin-bottom: 0; }
+        .filter-label { font-weight: 500; color: var(--color-text-secondary); min-width: 60px; }
+        
+        .filter-options { display: flex; flex-wrap: wrap; gap: var(--spacing-sm); }
+
+        .filter-tag {
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-base);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid var(--color-border);
+            background: var(--color-bg);
+            color: var(--color-text-secondary);
+        }
+
+        .filter-tag:hover { border-color: var(--color-primary); color: var(--color-primary); }
+        .filter-tag.active { background: var(--color-primary-light); border-color: var(--color-primary); color: var(--color-primary); }
+        .filter-tag.more { border-style: dashed; color: var(--color-text-tertiary); }
+
+        .content-grid { display: grid; grid-template-columns: 1fr 320px; gap: var(--spacing-lg); }
+
+        .tender-list {
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-base);
+            overflow: hidden;
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-base) var(--spacing-lg);
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .list-title { font-size: 16px; font-weight: 600; }
+        .list-count { color: var(--color-text-tertiary); font-size: 13px; }
+
+        .view-toggle { display: flex; gap: var(--spacing-xs); }
+
+        .view-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--color-border);
+            background: var(--color-bg);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: var(--color-text-tertiary);
+            transition: all 0.2s ease;
+        }
+
+        .view-btn.active { background: var(--color-primary-light); border-color: var(--color-primary); color: var(--color-primary); }
+
+        .tender-item {
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--color-border-light);
+            transition: background 0.2s ease;
+            cursor: pointer;
+        }
+
+        .tender-item:hover { background: #fafafa; }
+        .tender-item:last-child { border-bottom: none; }
+
+        .tender-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--spacing-sm); }
+
+        .tender-type {
+            display: inline-flex;
+            padding: 2px 8px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .tender-type.bid { background: #e6f7ff; color: #1890ff; }
+        .tender-type.result { background: #f6ffed; color: #52c41a; }
+        .tender-type.intent { background: #fff7e6; color: #fa8c16; }
+        .tender-type.change { background: #fff1f0; color: #ff4d4f; }
+
+        .tender-date { font-size: 13px; color: var(--color-text-tertiary); }
+
+        .tender-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-text);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .tender-title:hover { color: var(--color-primary); }
+
+        .tender-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-base);
+            font-size: 13px;
+            color: var(--color-text-tertiary);
+            margin-bottom: var(--spacing-base);
+        }
+
+        .tender-meta-item { display: flex; align-items: center; gap: var(--spacing-xs); }
+        .tender-meta-item svg { width: 14px; height: 14px; }
+
+        .tender-actions { display: flex; gap: var(--spacing-sm); }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .action-btn:hover { background: var(--color-primary-light); color: var(--color-primary); }
+        .action-btn.favorite { color: var(--color-warning); }
+
+        .sidebar { display: flex; flex-direction: column; gap: var(--spacing-lg); }
+
+        .sidebar-card {
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-base);
+            overflow: hidden;
+        }
+
+        .sidebar-title {
+            font-size: 15px;
+            font-weight: 600;
+            padding: var(--spacing-base) var(--spacing-lg);
+            border-bottom: 1px solid var(--color-border-light);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .sidebar-title svg { width: 18px; height: 18px; color: var(--color-primary); }
+        .sidebar-content { padding: var(--spacing-base); }
+
+        .hot-unit {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .hot-unit:hover { background: var(--color-bg-page); }
+        .hot-unit-name { font-size: 14px; color: var(--color-text); }
+        .hot-unit-count {
+            font-size: 12px;
+            color: var(--color-text-tertiary);
+            background: var(--color-bg-page);
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+        }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-sm); }
+
+        .stat-item {
+            text-align: center;
+            padding: var(--spacing-base);
+            background: var(--color-bg-page);
+            border-radius: var(--radius-base);
+        }
+
+        .stat-value { font-size: 24px; font-weight: 600; color: var(--color-primary); }
+        .stat-label { font-size: 12px; color: var(--color-text-tertiary); margin-top: var(--spacing-xs); }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-lg);
+        }
+
+        .page-btn {
+            min-width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-border);
+            background: var(--color-bg);
+            border-radius: var(--radius-base);
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .page-btn:hover:not(:disabled) { border-color: var(--color-primary); color: var(--color-primary); }
+        .page-btn.active { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .tender-cards { display: none; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-base); padding: var(--spacing-lg); }
+
+        .tender-card {
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-base);
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .tender-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+        .card-body { padding: var(--spacing-base); }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-base);
+            background: var(--color-bg-page);
+            border-top: 1px solid var(--color-border-light);
+        }
+
+        @media (max-width: 1200px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .header-inner { flex-wrap: wrap; height: auto; padding: var(--spacing-base); gap: var(--spacing-base); }
+            .header-search { order: 3; margin: 0; max-width: 100%; width: 100%; }
+            .header-search select { width: 80px; }
+            .nav-inner { overflow-x: auto; }
+            .tender-cards { grid-template-columns: 1fr; }
+            .tender-meta { flex-direction: column; gap: var(--spacing-xs); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tender-item, .tender-card { animation: fadeIn 0.3s ease forwards; }
+        .tender-item:nth-child(1) { animation-delay: 0.05s; }
+        .tender-item:nth-child(2) { animation-delay: 0.1s; }
+        .tender-item:nth-child(3) { animation-delay: 0.15s; }
+        .tender-item:nth-child(4) { animation-delay: 0.2s; }
+        .tender-item:nth-child(5) { animation-delay: 0.25s; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon">📋</div>
+                <span>招标头条</span>
+            </a>
+            <div class="header-search">
+                <select>
+                    <option>招标信息</option>
+                    <option>中标结果</option>
+                    <option>采购单位</option>
+                </select>
+                <input type="text" placeholder="搜索招标、中标、项目...">
+                <button>搜索</button>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-text">登录</button>
+                <button class="btn btn-primary">注册</button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-item active">首页</a>
+            <a href="#" class="nav-item">招标信息</a>
+            <a href="#" class="nav-item">中标结果</a>
+            <a href="#" class="nav-item">采购单位</a>
+            <a href="#" class="nav-item">行业分类</a>
+            <a href="#" class="nav-item">关于我们</a>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="filter-bar">
+            <div class="filter-group">
+                <span class="filter-label">招标类型</span>
+                <div class="filter-options">
+                    <span class="filter-tag active">全部</span>
+                    <span class="filter-tag bid">招标公告</span>
+                    <span class="filter-tag result">中标结果</span>
+                    <span class="filter-tag intent">采购意向</span>
+                    <span class="filter-tag change">变更公告</span>
+                    <span class="filter-tag">废标公告</span>
+                </div>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">地区</span>
+                <div class="filter-options">
+                    <span class="filter-tag active">全部</span>
+                    <span class="filter-tag">北京</span>
+                    <span class="filter-tag">上海</span>
+                    <span class="filter-tag">广东</span>
+                    <span class="filter-tag">浙江</span>
+                    <span class="filter-tag">江苏</span>
+                    <span class="filter-tag more">+ 更多</span>
+                </div>
+            </div>
+            <div class="filter-group">
+                <span class="filter-label">行业</span>
+                <div class="filter-options">
+                    <span class="filter-tag active">全部</span>
+                    <span class="filter-tag">工程建设</span>
+                    <span class="filter-tag">政府采购</span>
+                    <span class="filter-tag">产权交易</span>
+                    <span class="filter-tag">土地交易</span>
+                    <span class="filter-tag more">+ 更多</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="tender-list">
+                <div class="list-header">
+                    <div>
+                        <span class="list-title">招标信息</span>
+                        <span class="list-count">找到 1,234 条</span>
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-btn active" onclick="setView('list')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                        </button>
+                        <button class="view-btn" onclick="setView('card')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tender-items" id="tenderItems">
+                    <div class="tender-item">
+                        <div class="tender-header">
+                            <span class="tender-type bid">招标公告</span>
+                            <span class="tender-date">2026-03-17</span>
+                        </div>
+                        <div class="tender-title">关于杭州市某区政务服务中心信息化建设项目的公开招标公告</div>
+                        <div class="tender-meta">
+                            <span class="tender-meta-item">💰 预算: ¥1,200,000</span>
+                            <span class="tender-meta-item">📍 浙江省</span>
+                            <span class="tender-meta-item">🌐 政府采购网</span>
+                        </div>
+                        <div class="tender-actions">
+                            <span class="action-btn favorite">★ 收藏</span>
+                            <span class="action-btn">详情 →</span>
+                        </div>
+                    </div>
+
+                    <div class="tender-item">
+                        <div class="tender-header">
+                            <span class="tender-type result">中标结果</span>
+                            <span class="tender-date">2026-03-17</span>
+                        </div>
+                        <div class="tender-title">深圳市某区智慧交通系统建设项目中标结果公示</div>
+                        <div class="tender-meta">
+                            <span class="tender-meta-item">💰 中标金额: ¥980,000</span>
+                            <span class="tender-meta-item">📍 广东省</span>
+                            <span class="tender-meta-item">🌐 招标投标网</span>
+                        </div>
+                        <div class="tender-actions">
+                            <span class="action-btn">★ 收藏</span>
+                            <span class="action-btn">详情 →</span>
+                        </div>
+                    </div>
+
+                    <div class="tender-item">
+                        <div class="tender-header">
+                            <span class="tender-type intent">采购意向</span>
+                            <span class="tender-date">2026-03-16</span>
+                        </div>
+                        <div class="tender-title">某大学2026年度实验室设备采购意向公告</div>
+                        <div class="tender-meta">
+                            <span class="tender-meta-item">💰 预算: ¥3,500,000</span>
+                            <span class="tender-meta-item">📍 北京市</span>
+                            <span class="tender-meta-item">🌐 政府采购网</span>
+                        </div>
+                        <div class="tender-actions">
+                            <span class="action-btn">★ 收藏</span>
+                            <span class="action-btn">详情 →</span>
+                        </div>
+                    </div>
+
+                    <div class="tender-item">
+                        <div class="tender-header">
+                            <span class="tender-type change">变更公告</span>
+                            <span class="tender-date">2026-03-16</span>
+                        </div>
+                        <div class="tender-title">关于某医院医疗设备采购项目的变更公告</div>
+                        <div class="tender-meta">
+                            <span class="tender-meta-item">💰 预算: ¥2,800,000</span>
+                            <span class="tender-meta-item">📍 上海市</span>
+                            <span class="tender-meta-item">🌐 招标投标网</span>
+                        </div>
+                        <div class="tender-actions">
+                            <span class="action-btn">★ 收藏</span>
+                            <span class="action-btn">详情 →</span>
+                        </div>
+                    </div>
+
+                    <div class="tender-item">
+                        <div class="tender-header">
+                            <span class="tender-type bid">招标公告</span>
+                            <span class="tender-date">2026-03-15</span>
+                        </div>
+                        <div class="tender-title">某市智慧城市数据平台建设项目公开招标公告</div>
+                        <div class="tender-meta">
+                            <span class="tender-meta-item">💰 预算: ¥5,600,000</span>
+                            <span class="tender-meta-item">📍 浙江省</span>
+                            <span class="tender-meta-item">🌐 政府采购网</span>
+                        </div>
+                        <div class="tender-actions">
+                            <span class="action-btn">★ 收藏</span>
+                            <span class="action-btn">详情 →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tender-cards" id="tenderCards">
+                    <div class="tender-card">
+                        <div class="tender-header" style="padding: 16px 16px 0;">
+                            <span class="tender-type bid">招标公告</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="tender-title">杭州市某区政务服务中心信息化建设项目</div>
+                            <div class="tender-meta">
+                                <span>💰 ¥1,200,000</span>
+                                <span>📍 浙江省</span>
+                            </div>
+                            <span class="tender-date">2026-03-17</span>
+                        </div>
+                        <div class="card-footer">
+                            <span class="action-btn favorite">★ 收藏</span>
+                            <span class="action-btn">详情 →</span>
+                        </div>
+                    </div>
+                    <div class="tender-card">
+                        <div class="tender-header" style="padding: 16px 16px 0;">
+                            <span class="tender-type result">中标结果</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="tender-title">深圳市某区智慧交通系统建设项目</div>
+                            <div class="tender-meta">
+                                <span>💰 ¥980,000</span>
+                                <span>📍 广东省</span>
+                            </div>
+                            <span class="tender-date">2026-03-17</span>
+                        </div>
+                        <div class="card-footer">
+                            <span class="action-btn">★ 收藏</span>
+                            <span class="action-btn">详情 →</span>
+                        </div>
+                    </div>
+                    <div class="tender-card">
+                        <div class="tender-header" style="padding: 16px 16px 0;">
+                            <span class="tender-type intent">采购意向</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="tender-title">某大学2026年度实验室设备采购</div>
+                            <div class="tender-meta">
+                                <span>💰 ¥3,500,000</span>
+                                <span>📍 北京市</span>
+                            </div>
+                            <span class="tender-date">2026-03-16</span>
+                        </div>
+                        <div class="card-footer">
+                            <span class="action-btn">★ 收藏</span>
+                            <span class="action-btn">详情 →</span>
+                        </div>
+                    </div>
+                    <div class="tender-card">
+                        <div class="tender-header" style="padding: 16px 16px 0;">
+                            <span class="tender-type change">变更公告</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="tender-title">某医院医疗设备采购项目变更</div>
+                            <div class="tender-meta">
+                                <span>💰 ¥2,800,000</span>
+                                <span>📍 上海市</span>
+                            </div>
+                            <span class="tender-date">2026-03-16</span>
+                        </div>
+                        <div class="card-footer">
+                            <span class="action-btn">★ 收藏</span>
+                            <span class="action-btn">详情 →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination">
+                    <button class="page-btn" disabled>‹</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">4</button>
+                    <button class="page-btn">5</button>
+                    <button class="page-btn">›</button>
+                </div>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-card">
+                    <div class="sidebar-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        热门采购单位
+                    </div>
+                    <div class="sidebar-content">
+                        <div class="hot-unit"><span class="hot-unit-name">杭州市财政局</span><span class="hot-unit-count">15,234条</span></div>
+                        <div class="hot-unit"><span class="hot-unit-name">深圳市教育局</span><span class="hot-unit-count">12,856条</span></div>
+                        <div class="hot-unit"><span class="hot-unit-name">上海市卫健委</span><span class="hot-unit-count">10,421条</span></div>
+                        <div class="hot-unit"><span class="hot-unit-name">广东省公安厅</span><span class="hot-unit-count">8,765条</span></div>
+                        <div class="hot-unit"><span class="hot-unit-name">北京市交通局</span><span class="hot-unit-count">6,543条</span></div>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <div class="sidebar-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        平台统计
+                    </div>
+                    <div class="sidebar-content">
+                        <div class="stats-grid">
+                            <div class="stat-item"><div class="stat-value">12.8万</div><div class="stat-label">招标信息</div></div>
+                            <div class="stat-item"><div class="stat-value">8.6万</div><div class="stat-label">中标结果</div></div>
+                            <div class="stat-item"><div class="stat-value">2,340</div><div class="stat-label">采购单位</div></div>
+                            <div class="stat-item"><div class="stat-value">156</div><div class="stat-label">今日更新</div></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script>
+        function setView(view) {
+            const items = document.getElementById('tenderItems');
+            const cards = document.getElementById('tenderCards');
+            const btns = document.querySelectorAll('.view-btn');
+            
+            btns.forEach(b => b.classList.remove('active'));
+            event.target.closest('.view-btn').classList.add('active');
+            
+            if (view === 'list') {
+                items.style.display = 'block';
+                cards.style.display = 'none';
+            } else {
+                items.style.display = 'none';
+                cards.style.display = 'grid';
+            }
+        }
+
+        // Filter tag click
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                const siblings = this.parentElement.querySelectorAll('.filter-tag');
+                siblings.forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
