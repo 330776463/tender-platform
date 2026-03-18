@@ -26,6 +26,10 @@
             --color-bg: #ffffff;
             --color-bg-page: #f5f5f5;
             --color-bg-container: #ffffff;
+            /* VIP 会员色 */
+            --color-vip: #faad14;
+            --color-vip-light: #fffbe6;
+            --color-vip-dark: #d48806;
             --spacing-xs: 4px;
             --spacing-sm: 8px;
             --spacing-md: 12px;
@@ -493,24 +497,88 @@
                 <button>搜索</button>
             </div>
             <div class="header-actions">
-                <button class="btn btn-text">登录</button>
-                <button class="btn btn-primary">注册</button>
+                <!-- 登录态显示 -->
+                <div class="user-logged-in" style="display: flex; align-items: center; gap: 16px;">
+                    <!-- 消息通知 -->
+                    <div class="notification-bell" style="position: relative; cursor: pointer;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#595959" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span style="position: absolute; top: -4px; right: -4px; background: #ff4d4f; color: #fff; font-size: 10px; padding: 1px 5px; border-radius: 10px;">3</span>
+                    </div>
+                    <!-- VIP徽章 -->
+                    <div class="vip-badge" style="background: linear-gradient(135deg, #faad14, #d48806); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer;">
+                        👑 年度VIP
+                    </div>
+                    <!-- 用户头像 -->
+                    <div class="user-avatar" style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #1890ff, #69c0ff); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; cursor: pointer; border: 2px solid #faad14;">
+                        张
+                    </div>
+                </div>
+                <!-- 未登录态(备用) -->
+                <!-- <button class="btn btn-text">登录</button>
+                <button class="btn btn-primary">注册</button> -->
             </div>
         </div>
     </header>
 
     <nav class="nav">
         <div class="nav-inner">
-            <a href="#" class="nav-item active">首页</a>
-            <a href="#" class="nav-item">招标信息</a>
-            <a href="#" class="nav-item">中标结果</a>
-            <a href="#" class="nav-item">采购单位</a>
-            <a href="#" class="nav-item">行业分类</a>
-            <a href="#" class="nav-item">关于我们</a>
+            <a href="#" class="nav-item active" onclick="showPage('home')">首页</a>
+            <a href="#" class="nav-item" onclick="showPage('list')">招标信息</a>
+            <a href="#" class="nav-item" onclick="showPage('list')">中标结果</a>
+            <a href="#" class="nav-item" onclick="showPage('list')">采购单位</a>
+            <a href="#" class="nav-item" onclick="showPage('list')">行业分类</a>
+            <a href="#" class="nav-item" onclick="showPage('vip')" style="color: var(--color-vip);">VIP专区</a>
+            <a href="#" class="nav-item" onclick="showPage('subscription')">订阅管理</a>
         </div>
     </nav>
 
-    <main class="main">
+    <!-- 首页 -->
+    <main class="main" id="page-home" style="display: block;">
+        <!-- 登录用户专属区域 -->
+        <div class="user-section" style="background: linear-gradient(135deg, #fffbe6 0%, #fff 100%); border-radius: 12px; padding: 20px; margin-bottom: 24px; border: 1px solid #ffe58f;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <!-- 我的订阅 -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span style="font-size: 16px; font-weight: 600; color: #262626;">🎯 我的订阅</span>
+                        <span style="font-size: 12px; color: #1890ff; cursor: pointer;">管理订阅 →</span>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <span style="background: #e6f7ff; color: #1890ff; padding: 4px 12px; border-radius: 16px; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                            建筑工程 <span style="background: #52c41a; color: #fff; padding: 1px 6px; border-radius: 10px; font-size: 11px;">3条新</span>
+                        </span>
+                        <span style="background: #f6ffed; color: #52c41a; padding: 4px 12px; border-radius: 16px; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                            政府采购 <span style="background: #52c41a; color: #fff; padding: 1px 6px; border-radius: 10px; font-size: 11px;">5条新</span>
+                        </span>
+                        <span style="background: #fff7e6; color: #fa8c16; padding: 4px 12px; border-radius: 16px; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                            医疗设备 <span style="background: #fa8c16; color: #fff; padding: 1px 6px; border-radius: 10px; font-size: 11px;">1条新</span>
+                        </span>
+                        <span style="background: #f5f5f5; color: #8c8c8c; padding: 4px 12px; border-radius: 16px; font-size: 13px; cursor: pointer;">+ 添加订阅</span>
+                    </div>
+                </div>
+                <!-- 猜你喜欢 -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span style="font-size: 16px; font-weight: 600; color: #262626;">✨ 猜你喜欢</span>
+                        <span style="font-size: 12px; color: #8c8c8c;">基于您的收藏推荐</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                            <span style="color: #595959;">杭州市智慧城市数据平台建设项目</span>
+                            <span style="color: #8c8c8c;">匹配度 95%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                            <span style="color: #595959;">深圳市某区智慧交通系统扩容</span>
+                            <span style="color: #8c8c8c;">匹配度 88%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="filter-bar">
             <div class="filter-group">
                 <span class="filter-label">招标类型</span>
@@ -767,6 +835,152 @@
         </div>
     </main>
 
+    <!-- VIP会员专区 -->
+    <main class="main" id="page-vip" style="display: none;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <!-- VIP用户卡片 -->
+            <div style="background: linear-gradient(135deg, #faad14 0%, #d48806 100%); border-radius: 16px; padding: 32px; color: #fff; margin-bottom: 32px;">
+                <div style="display: flex; align-items: center; gap: 24px;">
+                    <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 32px; border: 3px solid #fff;">
+                        张
+                    </div>
+                    <div>
+                        <div style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">尊敬的用户您好</div>
+                        <div style="font-size: 16px; opacity: 0.9; margin-bottom: 4px;">您是：年度VIP会员</div>
+                        <div style="font-size: 14px; opacity: 0.8;">到期时间：2027年3月18日</div>
+                    </div>
+                    <div style="margin-left: auto;">
+                        <button style="background: #fff; color: #d48806; border: none; padding: 12px 24px; border-radius: 24px; font-size: 14px; font-weight: 600; cursor: pointer;">续费会员</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 权益介绍 -->
+            <div style="background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-base);">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">VIP专属权益</h3>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">📊</div>
+                        <div style="font-weight: 600; margin-bottom: 4px;">无限查看</div>
+                        <div style="font-size: 12px; color: #8c8c8c;">查看全部招标详细信息</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">📥</div>
+                        <div style="font-weight: 600; margin-bottom: 4px;">批量导出</div>
+                        <div style="font-size: 12px; color: #8c8c8c;">Excel/CSV无限导出</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">🔔</div>
+                        <div style="font-weight: 600; margin-bottom: 4px;">优先推送</div>
+                        <div style="font-size: 12px; color: #8c8c8c;">第一时间推送新标讯</div>
+                    </div>
+                    <div style="text-align: center; padding: 20px;">
+                        <div style="font-size: 32px; margin-bottom: 12px;">🎯</div>
+                        <div style="font-weight: 600; margin-bottom: 4px;">竞品分析</div>
+                        <div style="font-size: 12px; color: #8c8c8c;">中标企业深度分析</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 开通/续费 -->
+            <div style="background: #fff; border-radius: 12px; padding: 24px; box-shadow: var(--shadow-base);">
+                <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">开通/续费</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <div style="border: 2px solid #f0f0f0; border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s;">
+                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">月度VIP</div>
+                        <div style="font-size: 28px; font-weight: 700; color: #faad14; margin-bottom: 8px;">¥99<span style="font-size: 14px; font-weight: 400; color: #8c8c8c;">/月</span></div>
+                        <div style="font-size: 12px; color: #8c8c8c; margin-bottom: 16px;">适合短期需求</div>
+                        <button style="width: 100%; background: #fff; color: #1890ff; border: 1px solid #1890ff; padding: 10px; border-radius: 6px; cursor: pointer;">立即开通</button>
+                    </div>
+                    <div style="border: 2px solid #faad14; border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative;">
+                        <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #faad14; color: #fff; padding: 4px 16px; border-radius: 12px; font-size: 12px;">省30%</div>
+                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">年度VIP ⭐</div>
+                        <div style="font-size: 28px; font-weight: 700; color: #faad14; margin-bottom: 8px;">¥899<span style="font-size: 14px; font-weight: 400; color: #8c8c8c;">/年</span></div>
+                        <div style="font-size: 12px; color: #8c8c8c; margin-bottom: 16px;">原价 ¥1188</div>
+                        <button style="width: 100%; background: linear-gradient(135deg, #faad14, #d48806); color: #fff; border: none; padding: 10px; border-radius: 6px; cursor: pointer;">立即开通</button>
+                    </div>
+                    <div style="border: 2px solid #f0f0f0; border-radius: 12px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s;">
+                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 12px;">企业版</div>
+                        <div style="font-size: 28px; font-weight: 700; color: #595959; margin-bottom: 8px;">定制</div>
+                        <div style="font-size: 12px; color: #8c8c8c; margin-bottom: 16px;">API接口、定制数据</div>
+                        <button style="width: 100%; background: #fff; color: #595959; border: 1px solid #d9d9d9; padding: 10px; border-radius: 6px; cursor: pointer;">联系我们</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 订阅管理 -->
+    <main class="main" id="page-subscription" style="display: none;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 style="font-size: 20px; font-weight: 600;">我的订阅</h2>
+                <button style="background: #1890ff; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 14px;">+ 新建订阅</button>
+            </div>
+
+            <!-- 订阅列表 -->
+            <div style="background: #fff; border-radius: 12px; box-shadow: var(--shadow-base); overflow: hidden;">
+                <div style="padding: 20px; border-bottom: 1px solid #f0f0f0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <span style="background: #e6f7ff; color: #1890ff; padding: 4px 10px; border-radius: 4px; font-size: 14px; font-weight: 600;">🔍 建筑工程</span>
+                                <span style="background: #52c41a; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 12px;">启用中</span>
+                            </div>
+                            <div style="font-size: 13px; color: #8c8c8c;">行业: 工程建设 | 地区: 全国 | 推送: 即时</div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button style="padding: 6px 12px; border: 1px solid #d9d9d9; background: #fff; border-radius: 4px; cursor: pointer; font-size: 13px;">编辑</button>
+                            <button style="padding: 6px 12px; border: 1px solid #d9d9d9; background: #fff; border-radius: 4px; cursor: pointer; font-size: 13px;">暂停</button>
+                            <button style="padding: 6px 12px; border: 1px solid #ff4d4f; color: #ff4d4f; background: #fff; border-radius: 4px; cursor: pointer; font-size: 13px;">删除</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 20px; border-bottom: 1px solid #f0f0f0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <span style="background: #f6ffed; color: #52c41a; padding: 4px 10px; border-radius: 4px; font-size: 14px; font-weight: 600;">🔍 政府采购</span>
+                                <span style="background: #52c41a; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 12px;">启用中</span>
+                            </div>
+                            <div style="font-size: 13px; color: #8c8c8c;">行业: 政府采购 | 地区: 浙江省 | 推送: 每日汇总</div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button style="padding: 6px 12px; border: 1px solid #d9d9d9; background: #fff; border-radius: 4px; cursor: pointer; font-size: 13px;">编辑</button>
+                            <button style="padding: 6px 12px; border: 1px solid #d9d9d9; background: #fff; border-radius: 4px; cursor: pointer; font-size: 13px;">暂停</button>
+                            <button style="padding: 6px 12px; border: 1px solid #ff4d4f; color: #ff4d4f; background: #fff; border-radius: 4px; cursor: pointer; font-size: 13px;">删除</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <span style="background: #fff7e6; color: #fa8c16; padding: 4px 10px; border-radius: 4px; font-size: 14px; font-weight: 600;">🔍 医疗设备</span>
+                                <span style="background: #8c8c8c; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 12px;">已暂停</span>
+                            </div>
+                            <div style="font-size: 13px; color: #8c8c8c;">行业: 医疗卫生 | 地区: 上海市 | 推送: 即时</div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button style="padding: 6px 12px; border: 1px solid #d9d9d9; background: #fff; border-radius: 4px; cursor: pointer; font-size: 13px;">编辑</button>
+                            <button style="padding: 6px 12px; border: 1px solid #52c41a; color: #52c41a; background: #fff; border-radius: 4px; cursor: pointer; font-size: 13px;">启用</button>
+                            <button style="padding: 6px 12px; border: 1px solid #ff4d4f; color: #ff4d4f; background: #fff; border-radius: 4px; cursor: pointer; font-size: 13px;">删除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 列表页（占位） -->
+    <main class="main" id="page-list" style="display: none;">
+        <div style="text-align: center; padding: 100px 20px;">
+            <div style="font-size: 48px; margin-bottom: 20px;">📋</div>
+            <div style="font-size: 20px; color: #595959; margin-bottom: 8px;">招标信息列表页</div>
+            <div style="color: #8c8c8c;">功能开发中，敬请期待...</div>
+        </div>
+    </main>
+
     <script>
         function setView(view) {
             const items = document.getElementById('tenderItems');
@@ -783,6 +997,22 @@
                 items.style.display = 'none';
                 cards.style.display = 'grid';
             }
+        }
+
+        // 页面切换函数
+        function showPage(page) {
+            // 更新导航 active 状态
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 隐藏所有页面
+            document.getElementById('page-home').style.display = 'none';
+            document.getElementById('page-list').style.display = 'none';
+            document.getElementById('page-vip').style.display = 'none';
+            document.getElementById('page-subscription').style.display = 'none';
+            
+            // 显示对应页面
+            document.getElementById('page-' + page).style.display = 'block';
         }
 
         // Filter tag click
