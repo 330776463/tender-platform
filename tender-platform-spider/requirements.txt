@@ -1,0 +1,28 @@
+# 招标信息爬虫依赖
+
+# 爬虫框架
+scrapy>=2.10.0
+playwright>=1.40.0
+aiohttp>=3.9.0
+requests>=2.31.0
+
+# 数据处理
+pymysql>=1.1.0
+sqlalchemy>=2.0.0
+pymongo>=4.6.0
+
+# 工具库
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+pyyaml>=6.0.0
+python-dateutil>=2.8.0
+pytz>=2023.3
+
+# 反爬应对
+fake-useragent>=1.4.0
+proxy-pool>=0.2.0
+rotating-proxies>=1.12.0
+
+# 爬虫管理
+scrapy-redis>=0.7.0
+scrapyd>=1.4.0
